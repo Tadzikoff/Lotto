@@ -12,29 +12,22 @@ namespace Lotto.Services.API
 {
     public class APILottoNumberService : ILottoResultsServices
     {
-        public async Task<IEnumerable<LottoResults>> GetLottoResults(int amountOfLottoNumbers)
+        public async Task<LottoResults> GetLottoResults()
         {
             using (HttpClient client = new HttpClient())
             {
                 string requestUri = "http://serwis.mobilotto.pl/mapi_v6/index.php?json=getGames";
 
-               HttpResponseMessage apiResponse = await client.GetAsync(requestUri);
+                HttpResponseMessage apiResponse = await client.GetAsync(requestUri);
 
                 string jsonResponse = await apiResponse.Content.ReadAsStringAsync();
 
-                List<APILottoResults> apiResults = JsonSerializer.Deserialize<List<APILottoResults>>(jsonResponse, new JsonSerializerOptions()
+                var apiResults = JsonSerializer.Deserialize<APILottoResults>(jsonResponse, new JsonSerializerOptions()
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-                return apiResults.Take(amountOfLottoNumbers).Select(apiResults => new LottoResults()
-                {
-                    LottoNumbers = apiResults.numerki
-
-                    //LottoDate = apiResults.data_losowania
-
-                });
-
+                return new LottoResults(apiResults);
             }
         }
 

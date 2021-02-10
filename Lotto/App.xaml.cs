@@ -19,7 +19,7 @@ namespace Lotto
         {
             APILottoNumberService lottoNumberService = new APILottoNumberService();
 
-            var result = await lottoNumberService.GetLottoResults(10);
+            var result = await lottoNumberService.GetLottoResults();
 
             base.OnStartup(e);
         }

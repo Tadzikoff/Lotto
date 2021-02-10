@@ -8,7 +8,7 @@ namespace Lotto.Services
 {
    public interface ILottoResultsServices
     {
-        Task<IEnumerable<LottoResults>> GetLottoResults(int amountOfLottoNumbers);
+        Task<LottoResults> GetLottoResults();
 
     }
 }
